@@ -79,8 +79,9 @@ def report():
     from reportlab.platypus import SimpleDocTemplate, Paragraph
     from reportlab.lib.styles import getSampleStyleSheet
     import io
+    from reportlab.lib.pagesizes import letter
     buffer = io.BytesIO()
-    doc = SimpleDocTemplate(buffer)
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
 
     styles = getSampleStyleSheet()
 
