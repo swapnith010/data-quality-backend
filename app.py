@@ -1,3 +1,5 @@
+import io
+
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from models import db, User
@@ -76,9 +78,10 @@ def report():
 
     from reportlab.platypus import SimpleDocTemplate, Paragraph
     from reportlab.lib.styles import getSampleStyleSheet
+    import io
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer)
 
-    file = "report.pdf"
-    doc = SimpleDocTemplate(file)
     styles = getSampleStyleSheet()
 
     content = [
@@ -94,7 +97,13 @@ def report():
         content.append(Paragraph(err, styles['Normal']))
 
     doc.build(content)
-    return send_file(file, as_attachment=True)
+    buffer.seek(0)buffer.seek(0)
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name="report.pdf",
+        mimetype="application/pdf"
+        )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
