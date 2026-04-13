@@ -72,14 +72,16 @@ def upload():
 
 
 # -------- PDF REPORT --------
+from flask import send_file, request
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.pagesizes import letter
+import io
+
 @app.route('/report', methods=['POST'])
 def report():
     data = request.json
 
-    from reportlab.platypus import SimpleDocTemplate, Paragraph
-    from reportlab.lib.styles import getSampleStyleSheet
-    import io
-    from reportlab.lib.pagesizes import letter
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
 
@@ -95,16 +97,18 @@ def report():
     ]
 
     for err in data["error_list"]:
-        content.append(Paragraph(err, styles['Normal']))
+        content.append(Paragraph(str(err), styles['Normal']))
 
     doc.build(content)
-    buffer.seek(0)buffer.seek(0)
+
+    buffer.seek(0)  # ✅ VERY IMPORTANT (only once)
+
     return send_file(
         buffer,
         as_attachment=True,
         download_name="report.pdf",
         mimetype="application/pdf"
-        )
+    )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
