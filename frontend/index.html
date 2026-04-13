@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Quality Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- LOADER -->
+<div id="loader">
+    <div class="spinner"></div>
+</div>
+
+<!-- AUTH -->
+<div id="auth-box" class="auth-container">
+
+    <!-- LOGIN -->
+    <div id="login-box" class="card login-card">
+        <h2>Login</h2>
+
+        <input id="login-username" placeholder="Username">
+        <input id="login-password" type="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <p class="switch" onclick="showRegister()">
+            Don't have an account? Register
+        </p>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="register-box" class="card login-card" style="display:none;">
+        <h2>Register</h2>
+
+        <input id="register-username" placeholder="Username">
+        <input id="register-password" type="password" placeholder="Password">
+        <input id="confirm-password" type="password" placeholder="Confirm Password">
+
+        <button onclick="register()">Register</button>
+
+        <p class="switch" onclick="showLogin()">
+            Already have an account? Login
+        </p>
+    </div>
+
+</div>
+<!-- MAIN DASHBOARD -->
+<div id="main" style="display:none;">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>DQC</h2>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="topbar">
+            <h2 id="welcome"></h2>
+        </div>
+
+        <div class="stats">
+            <div class="box">
+                <p>Total Files</p>
+                <h3 id="files">0</h3>
+            </div>
+            <div class="box">
+                <p>Errors</p>
+                <h3 id="errors">0</h3>
+            </div>
+            <div class="box">
+                <p>Quality</p>
+                <h3 id="quality">0%</h3>
+            </div>
+        </div>
+
+        <div class="upload">
+            <input type="file" id="file">
+            <button onclick="upload()">Analyze File</button>
+        </div>
+
+        <div class="card">
+            <h3>Summary</h3>
+            <div id="summary"></div>
+        </div>
+
+        <div class="card">
+            <h3>Error List</h3>
+            <div id="error-list"></div>
+        </div>
+
+        <button onclick="downloadReport()">Download PDF</button>
+
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
